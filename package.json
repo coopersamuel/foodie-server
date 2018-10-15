@@ -12,6 +12,7 @@
   "dependencies": {
     "express": "^4.16.3",
     "express-graphql": "^0.6.12",
+    "getstream": "^3.21.0",
     "graphql": "^14.0.2",
     "lodash": "^4.17.11",
     "mongoose": "^5.2.17"

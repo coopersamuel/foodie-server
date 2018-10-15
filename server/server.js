@@ -3,13 +3,14 @@ const expressGraphQL = require('express-graphql');
 const models = require('./models');
 const mongoose = require('mongoose');
 const schema = require('./schema/schema');
-const { dbName, dbUsername, dbPassword } = require('./config');
+const stream = require('getstream');
+const { dbConfig, streamConfig } = require('./config');
 
 // Create a new express application
 const app = express();
 
 // URI for Mongo Atlas instance
-const MONGO_URI = `mongodb+srv://${dbUsername}:${dbPassword}@foodiedev-4gdut.gcp.mongodb.net/${dbName}?retryWrites=true`;
+const MONGO_URI = `mongodb+srv://${dbConfig.dbUsername}:${dbConfig.dbPassword}@foodiedev-4gdut.gcp.mongodb.net/${dbConfig.dbName}?retryWrites=true`;
 
 // Mongoose's built in promise library is deprecated, replace is with ES2015 Promise
 mongoose.Promise = global.Promise;
@@ -24,6 +25,9 @@ mongoose.connection
 // Tell mongoose not to use Mongo's 'useFindAndModify' method, it is deprecated 
 // Mongoose will resort to using the newer methods for document update
 mongoose.set('useFindAndModify', false);
+
+// Instantiate the stream client
+client = stream.connect(streamConfig.key, streamConfig.secret, streamConfig.appId);
 
 app.use('/graphql', expressGraphQL({
     schema,
