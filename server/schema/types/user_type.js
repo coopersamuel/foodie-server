@@ -8,6 +8,7 @@ const {
     GraphQLNonNull
 } = graphql;
 
+// The user type contains all of the information in the user's profile
 const UserType = new GraphQLObjectType({
     name: 'UserType',
     fields: () => ({

@@ -3,8 +3,7 @@ const expressGraphQL = require('express-graphql');
 const models = require('./models');
 const mongoose = require('mongoose');
 const schema = require('./schema/schema');
-const stream = require('getstream');
-const { dbConfig, streamConfig } = require('./config');
+const { dbConfig } = require('./config');
 
 // Create a new express application
 const app = express();
@@ -25,9 +24,6 @@ mongoose.connection
 // Tell mongoose not to use Mongo's 'useFindAndModify' method, it is deprecated 
 // Mongoose will resort to using the newer methods for document update
 mongoose.set('useFindAndModify', false);
-
-// Instantiate the stream client
-client = stream.connect(streamConfig.key, streamConfig.secret, streamConfig.appId);
 
 app.use('/graphql', expressGraphQL({
     schema,

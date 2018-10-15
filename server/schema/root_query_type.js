@@ -10,8 +10,12 @@ const {
 // Import mongoose models
 const User = mongoose.model('user');
 
+// Import stream instance
+const stream = require('../stream');
+
 // Import graphql types
 const UserType = require('./types/user_type');
+const FeedType = require('./types/feed_type');
 
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
@@ -22,6 +26,22 @@ const RootQuery = new GraphQLObjectType({
             args: { id: { type: new GraphQLNonNull(GraphQLID) } },
             resolve(parentValue, { id }) {
                 return User.findById(id);
+            }
+        },
+        feed: {
+            // Query a users feed given their user id
+            type: FeedType,
+            args: { id: { type: new GraphQLNonNull(GraphQLID) } },
+            resolve(parentValue, { id }) {
+                const userFeed = stream.feed('user', id);
+
+                userFeed.get({ limit: 5 })
+                    .then(res => {
+                        console.log(res);
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
             }
         }
     })
