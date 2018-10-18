@@ -6,8 +6,13 @@ const { dbConfig } = require('../config');
 // This schema contains the data that will be stored in each User record
 const UserSchema = new Schema({
     name: String,
-    handle: String
-}, { collection: dbConfig.usersCollection });
+    handle: String,
+    posts: [{ postId: Schema.Types.ObjectId }]
+}, 
+{ 
+    timestamps: true,
+    collection: dbConfig.usersCollection 
+});
 
 // Create a user model
 mongoose.model('user', UserSchema);

@@ -31,4 +31,4 @@ app.use('/graphql', expressGraphQL({
 }));
 
 // Start the server
-app.listen(3000, () => console.log('Foodie server listening on port 3000!\n'));
+app.listen(3000, () => console.log('Metro server listening on port 3000!\n'));

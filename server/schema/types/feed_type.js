@@ -7,10 +7,12 @@ const {
     GraphQLNonNull
 } = graphql;
 
+const PostType = require('./post_type');
+
 const FeedType = new GraphQLObjectType({
     name: 'FeedType',
     fields: () => ({
-        id: { type: GraphQLID }
+        posts: { type: new GraphQLList(PostType) }
     })
 });
 

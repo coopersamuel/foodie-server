@@ -8,12 +8,10 @@ const {
     GraphQLNonNull
 } = graphql;
 
-// Import mongoose models and lodash functions
+// Import mongoose models and utils
 const User = mongoose.model('user');
 const { pickBy } = require('lodash');
-
-// Import stream instance
-const stream = require('../stream');
+const streamUtils = require('../stream/streamUtils');
 
 // Import graphql types
 const UserType = require('./types/user_type');
@@ -44,29 +42,14 @@ const mutation = new GraphQLObjectType({
                 return User.findByIdAndUpdate(args.id, argsWithoutNull, { new: true });
             }
         },
-        addActivity: {
+        createPost: {
             type: PostType,
             args: {
-                id: { type: new GraphQLNonNull(GraphQLID) },
+                userId: { type: new GraphQLNonNull(GraphQLID) },
                 content: { type: GraphQLString }
             },
             resolve(parentValue, args) {
-                const userFeed = stream.feed('user', args.id);
-
-                const activity = {
-                    actor: args.id,
-                    tweet: args.content,
-                    verb: 'tweet',
-                    object: 1
-                }
-
-                userFeed.addActivity(activity)
-                    .then(res => {
-                        console.log(res);
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
+                return streamUtils.createPost(args.userId, args.content);
             }
         }
     }
