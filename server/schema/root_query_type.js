@@ -16,6 +16,7 @@ const streamUtils = require('../stream/streamUtils');
 const UserType = require('./types/user_type');
 const FeedType = require('./types/feed_type');
 
+// This will make sure that an ObjectId from Mongo will always be coerced to a string
 ObjectId.prototype.valueOf = function() {
     return this.toString()
 }

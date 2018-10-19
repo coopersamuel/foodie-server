@@ -15,8 +15,7 @@ module.exports = async (userId) => {
             });
         })
         .catch(err => {
-            console.log(err);
-            return;
+            return err;
         });
 
     // Retrieve the User's posts

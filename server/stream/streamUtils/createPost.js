@@ -12,7 +12,8 @@ module.exports = async (userId, content) => {
         actor: userId,
         verb: 'post',
         object: post._id,
-        foreign_id: post._id
+        foreign_id: post._id,
+        time: post.createdAt
     }
 
     await stream
@@ -23,7 +24,7 @@ module.exports = async (userId, content) => {
             await User.findByIdAndUpdate(userId, { $push: { posts: { postId: post._id } } });
         })
         .catch(err => {
-            console.log(err);
+            return err;
         });
 
     return post;
