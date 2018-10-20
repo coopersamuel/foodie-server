@@ -51,6 +51,16 @@ const mutation = new GraphQLObjectType({
             resolve(parentValue, args) {
                 return streamUtils.createPost(args.userId, args.content);
             }
+        },
+        removePost: {
+            type: PostType,
+            args: { 
+                userId: { type: new GraphQLNonNull(GraphQLID) },
+                postId: { type: new GraphQLNonNull(GraphQLID) } 
+            },
+            resolve(parentValue, { userId, postId }) {
+                return streamUtils.removePost(userId, postId);
+            }
         }
     }
 });
