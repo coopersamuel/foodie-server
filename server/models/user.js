@@ -7,7 +7,10 @@ const { dbConfig } = require('../config');
 const UserSchema = new Schema({
     name: String,
     handle: String,
-    posts: [{ postId: Schema.Types.ObjectId }]
+    posts: [{ 
+        _id: false,
+        postId: Schema.Types.ObjectId 
+    }]
 }, 
 { 
     timestamps: true,
