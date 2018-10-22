@@ -8,6 +8,8 @@ const {
     GraphQLNonNull
 } = graphql;
 
+const PostType = require('./post_type');
+
 // The user type contains all of the information in the user's profile
 const UserType = new GraphQLObjectType({
     name: 'UserType',
@@ -15,7 +17,7 @@ const UserType = new GraphQLObjectType({
         id: { type: GraphQLID },
         name: { type: GraphQLString },
         handle: { type: GraphQLString },
-        posts: { type: GraphQLList(GraphQLID) }
+        posts: { type: GraphQLList(PostType) }
     })
 });
 
