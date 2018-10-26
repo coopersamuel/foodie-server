@@ -16,7 +16,10 @@ mongoose.Promise = global.Promise;
 
 // Connect to the MongoDB instance and log a message on success or failure
 // Use Mongo's useNewUrlParser option as the old url parser is deprecated
-mongoose.connect(MONGO_URI, { useNewUrlParser: true });
+mongoose.connect(MONGO_URI, { 
+    useCreateIndex: true,
+    useNewUrlParser: true 
+});
 mongoose.connection
     .once('open', () => console.log('Connected to MongoDB instance'))
     .on('error', error => console.log('Error connecting to MongoDB: ', error));

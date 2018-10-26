@@ -10,10 +10,12 @@ const {
 
 // Import mongoose models and utils
 const User = mongoose.model('user');
+const Post = mongoose.model('post');
 const streamUtils = require('../stream/streamUtils');
 
 // Import graphql types
 const UserType = require('./types/user_type');
+const PostType = require('./types/post_type');
 const FeedType = require('./types/feed_type');
 
 // This will make sure that an ObjectId from Mongo will always be coerced to a string
@@ -30,6 +32,13 @@ const RootQuery = new GraphQLObjectType({
             args: { id: { type: new GraphQLNonNull(GraphQLID) } },
             resolve(parentValue, { id }) {
                 return User.findById(id);
+            }
+        },
+        post: {
+            type: PostType,
+            args: { id: { type: new GraphQLNonNull(GraphQLID) } },
+            resolve(parentValue, { id }) {
+                return Post.findById(id);
             }
         },
         feed: {

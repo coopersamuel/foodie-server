@@ -5,7 +5,7 @@ const Post = mongoose.model('post');
 
 module.exports = async (userId, content) => {
     // Add the post to the posts collection
-    const post = await Post.create({ userId, content });
+    const post = await Post.create({ user: userId, content });
 
     // Build the activity object
     const activity = {
@@ -16,16 +16,7 @@ module.exports = async (userId, content) => {
         time: post.createdAt
     }
 
-    await stream
-        .feed('user', userId)
-        .addActivity(activity)
-        .then(async res => {
-            // Post created successfully, add it to the User's posts
-            await User.findByIdAndUpdate(userId, { $push: { posts: { postId: post._id } } });
-        })
-        .catch(err => {
-            return err;
-        });
+    await stream.feed('user', userId).addActivity(activity);
 
     return post;
 };

@@ -23,19 +23,23 @@ const mutation = new GraphQLObjectType({
         createNewUser: {
             type: UserType,
             args: {
+                email: { type: new GraphQLNonNull(GraphQLString) },
+                username: { type: new GraphQLNonNull(GraphQLString) },
                 name: { type: new GraphQLNonNull(GraphQLString) },
-                handle: { type: new GraphQLNonNull(GraphQLString) }
+                bio: { type: GraphQLString }
             },
             resolve(parentValue, args) {
-                return (new User({ name: args.name, handle: args.handle })).save();
+                return (new User(args)).save();
             }
         },
         updateUser: {
             type: UserType,
             args: {
                 id: { type: new GraphQLNonNull(GraphQLID) },
+                email: { type: GraphQLString },
+                username: { type: GraphQLString },
                 name: { type: GraphQLString },
-                handle: { type: GraphQLString }
+                bio: { type: GraphQLString }
             },
             resolve(parentValue, args) {
                 const argsWithoutNull = pickBy(args); // Filters out null values
@@ -61,7 +65,10 @@ const mutation = new GraphQLObjectType({
             resolve(parentValue, { userId, postId }) {
                 return streamUtils.removePost(userId, postId);
             }
-        }
+        },
+        // followUser: {
+        //     type: FollowType,
+        // }
     }
 });
 

@@ -8,8 +8,7 @@ module.exports = async (userId, postId) => {
         .feed('user', userId)
         .removeActivity({ foreignId: postId })
         .then(async res => {
-            // Post deleted successfully, now remove from the MongoDB
-            await User.findByIdAndUpdate(userId, { $pull: { posts: { postId } } });
+            // Post deleted successfully, now remove from MongoDB
             await Post.deleteOne({ _id: postId });
         })
         .catch(err => {

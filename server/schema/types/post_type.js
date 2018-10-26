@@ -7,11 +7,13 @@ const {
     GraphQLNonNull
 } = graphql;
 
+const UserType = require('./user_type');
+
 const PostType = new GraphQLObjectType({
     name: 'PostType',
     fields: () => ({
         id: { type: GraphQLID },
-        userId: { type: GraphQLID },
+        user: { type: UserType },
         content: { type: GraphQLString }
     })
 });
