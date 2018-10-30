@@ -37,12 +37,11 @@ const UserSchema = new Schema({
         trim: true,
         default: '',
     },
-    followerCount: Number,
-    followingCount: Number
+    followerCount: { type: Number, default: 0 },
+    followingCount: { type: Number, default: 0 }
 }, 
 { 
-    timestamps: true,
-    collection: dbConfig.usersCollection 
+    timestamps: true
 });
 
 // Create a user model

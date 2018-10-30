@@ -1,21 +1,16 @@
 const mongoose = require('mongoose');
 const graphql = require('graphql');
-const {
-    GraphQLObjectType,
-    GraphQLList,
-    GraphQLID,
-    GraphQLString,
-    GraphQLNonNull
-} = graphql;
+const { GraphQLObjectType, GraphQLID } = graphql;
+
+const UserType = require('./user_type');
 
 const FollowType = new GraphQLObjectType({
     name: 'FollowType',
     fields: () => ({
         id: { type: GraphQLID },
-        name: { type: GraphQLString },
-        handle: { type: GraphQLString },
-        posts: { type: GraphQLList(PostType) }
+        follower: { type: UserType },
+        followee: { type: UserType },
     })
 });
 
-module.exports = UserType;
+module.exports = FollowType;

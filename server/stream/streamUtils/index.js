@@ -1,9 +1,11 @@
 const createPost = require('./createPost');
-const getUserFeed = require('./getUserFeed');
+const getFeed = require('./getFeed');
 const removePost = require('./removePost');
+const follow = require('./follow');
 
 module.exports = {
     createPost,
-    getUserFeed,
-    removePost
+    getFeed,
+    removePost,
+    follow
 };

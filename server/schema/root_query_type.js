@@ -41,12 +41,21 @@ const RootQuery = new GraphQLObjectType({
                 return Post.findById(id);
             }
         },
-        feed: {
+        userFeed: {
             // Query a users feed given their user id
             type: FeedType,
             args: { id: { type: new GraphQLNonNull(GraphQLID) } },
             resolve(parentValue, { id }) {
-                const posts = streamUtils.getUserFeed(id);
+                const posts = streamUtils.getFeed(id, 'user');
+                return { posts };
+            }
+        },
+        timelineFeed: {
+            // Query a users feed given their user id
+            type: FeedType,
+            args: { id: { type: new GraphQLNonNull(GraphQLID) } },
+            resolve(parentValue, { id }) {
+                const posts = streamUtils.getFeed(id, 'timeline');
                 return { posts };
             }
         }

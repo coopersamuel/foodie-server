@@ -22,8 +22,7 @@ const PostSchema = new Schema({
     content: String
 }, 
 { 
-    timestamps: true,
-    collection: dbConfig.postsCollection 
+    timestamps: true
 });
 
 PostSchema.plugin(autopopulate);

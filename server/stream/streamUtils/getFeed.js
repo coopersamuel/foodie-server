@@ -3,13 +3,14 @@ const mongoose = require('mongoose');
 const Post = mongoose.model('post');
 const { map } = require('lodash');
 
-module.exports = async (userId) => {
+module.exports = async (userId, feedType) => {
     let postIds = [];
 
     await stream
-        .feed('user', userId)
+        .feed(feedType, userId)
         .get({ limit: 10 })
         .then(res => {
+            console.log(res);
             postIds = map(res.results, post => {
                 return post.object;
             });
@@ -19,5 +20,5 @@ module.exports = async (userId) => {
         });
 
     // Retrieve the User's posts
-    return await Post.find({ _id: { $in: postIds } });
+    return await Post.find({ _id: { $in: postIds } }).sort({ createdAt: 'descending' });
 };

@@ -16,6 +16,7 @@ const streamUtils = require('../stream/streamUtils');
 // Import graphql types
 const UserType = require('./types/user_type');
 const PostType = require('./types/post_type');
+const FollowType = require('./types/follow_type');
 
 const mutation = new GraphQLObjectType({
     name: 'Mutation',
@@ -66,9 +67,16 @@ const mutation = new GraphQLObjectType({
                 return streamUtils.removePost(userId, postId);
             }
         },
-        // followUser: {
-        //     type: FollowType,
-        // }
+        follow: {
+            type: FollowType,
+            args: {
+                followerId: { type: new GraphQLNonNull(GraphQLID) },
+                followeeId: { type: new GraphQLNonNull(GraphQLID) }
+            },
+            resolve(parentValue, args) {
+                return streamUtils.follow(args.followerId, args.followeeId);
+            }
+        }
     }
 });
 
