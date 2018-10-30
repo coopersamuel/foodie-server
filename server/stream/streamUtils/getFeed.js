@@ -10,7 +10,6 @@ module.exports = async (userId, feedType) => {
         .feed(feedType, userId)
         .get({ limit: 10 })
         .then(res => {
-            console.log(res);
             postIds = map(res.results, post => {
                 return post.object;
             });

@@ -19,6 +19,7 @@
     "mongoose-autopopulate": "^0.8.2"
   },
   "devDependencies": {
+    "jest": "^23.6.0",
     "nodemon": "^1.18.4"
   }
 }
