@@ -37,6 +37,8 @@ const FollowSchema = new Schema({
     timestamps: true
 });
 
+FollowSchema.index({ follower: 1, followee: 1 }, { unique: true });
+
 FollowSchema.post('save', async function(doc) {
     // Once a follow is saved, update both the follower and followee's 
     // documents in the User collection
