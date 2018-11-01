@@ -1,5 +1,5 @@
-const dbConfig = require('./dbConfig');
-const streamConfig = require('./streamConfig');
+const dbConfig = require('./privateConfig/dbConfig');
+const streamConfig = require('./privateConfig/streamConfig');
 
 module.exports = {
     dbConfig,
