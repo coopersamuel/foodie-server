@@ -4,7 +4,10 @@ const Post = mongoose.model('post');
 
 module.exports = async (userId, content) => {
     // Add the post to the posts collection
-    const post = await Post.create({ user: userId, content });
+    const post = await Post.create({ user: userId, content })
+        .catch(error => {
+            throw new Error('Unable to create new post');
+        });
 
     // Build the activity object
     const activity = {
