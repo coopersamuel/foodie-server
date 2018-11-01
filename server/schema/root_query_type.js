@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const graphql = require('graphql');
+const { ObjectId } = mongoose.Types;
 const {
     GraphQLObjectType,
     GraphQLList,
@@ -7,11 +8,20 @@ const {
     GraphQLNonNull
 } = graphql;
 
-// Import mongoose models
+// Import mongoose models and utils
 const User = mongoose.model('user');
+const Post = mongoose.model('post');
+const streamUtils = require('../stream/streamUtils');
 
 // Import graphql types
 const UserType = require('./types/user_type');
+const PostType = require('./types/post_type');
+const FeedType = require('./types/feed_type');
+
+// This will make sure that an ObjectId from Mongo will always be coerced to a string
+ObjectId.prototype.valueOf = function() {
+    return this.toString()
+}
 
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
@@ -22,6 +32,31 @@ const RootQuery = new GraphQLObjectType({
             args: { id: { type: new GraphQLNonNull(GraphQLID) } },
             resolve(parentValue, { id }) {
                 return User.findById(id);
+            }
+        },
+        post: {
+            type: PostType,
+            args: { id: { type: new GraphQLNonNull(GraphQLID) } },
+            resolve(parentValue, { id }) {
+                return Post.findById(id);
+            }
+        },
+        userFeed: {
+            // Query a users feed given their user id
+            type: FeedType,
+            args: { id: { type: new GraphQLNonNull(GraphQLID) } },
+            resolve(parentValue, { id }) {
+                const posts = streamUtils.getFeed(id, 'user');
+                return { posts };
+            }
+        },
+        timelineFeed: {
+            // Query a users feed given their user id
+            type: FeedType,
+            args: { id: { type: new GraphQLNonNull(GraphQLID) } },
+            resolve(parentValue, { id }) {
+                const posts = streamUtils.getFeed(id, 'timeline');
+                return { posts };
             }
         }
     })
