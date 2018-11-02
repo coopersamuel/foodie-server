@@ -43,6 +43,8 @@ FollowSchema.post('save', async function(doc) {
     // Once a follow is saved, update both the follower and followee's 
     // documents in the User collection
 
+    console.log('was called');
+
     // Follower
     await User.findByIdAndUpdate(doc.follower, { $inc: { followingCount: 1 } });
 

@@ -6,7 +6,7 @@ require('../../server/models/user');
 const User = mongoose.model('user');
 
 describe('User Model', () => {
-    it('should not allow a user without a name, username or email', async () => {
+    it('should not allow a user without a name, username or email', () => {
         const user = new User();
         user.validate(err => {
             expect(err.errors).toHaveProperty('name');
