@@ -17,7 +17,6 @@ module.exports = async (userId, feedType) => {
         .catch(err => {
             return err;
         });
-        console.log(postIds);
 
     // Retrieve the User's posts
     return await Post.find({ _id: { $in: postIds } }).sort({ createdAt: 'descending' });
