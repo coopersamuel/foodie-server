@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 // Load the models here b/c we won't be instantiating the express server
-require('../../server/models/user'); 
+require('../../server/models');
 
 const User = mongoose.model('user');
 

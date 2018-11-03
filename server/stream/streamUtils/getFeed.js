@@ -5,7 +5,7 @@ const { map } = require('lodash');
 
 module.exports = async (userId, feedType) => {
     let postIds = [];
-
+    
     await stream
         .feed(feedType, userId)
         .get({ limit: 10 })
@@ -17,6 +17,7 @@ module.exports = async (userId, feedType) => {
         .catch(err => {
             return err;
         });
+        console.log(postIds);
 
     // Retrieve the User's posts
     return await Post.find({ _id: { $in: postIds } }).sort({ createdAt: 'descending' });

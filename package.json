@@ -4,8 +4,11 @@
   "description": "Server for foodie app",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "NODE_ENV=test jest",
     "server": "nodemon ./server/server.js"
+  },
+  "jest": {
+    "testPathIgnorePatterns": ["<rootDir>/server/", "<rootDir>/node_modules/"]
   },
   "author": "",
   "license": "ISC",

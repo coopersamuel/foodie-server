@@ -1,12 +1,9 @@
 const mongoose = require('mongoose');
-const sinon = require('sinon');
 
 // Load the models here b/c we won't be instantiating the express server
-require('../../server/models/user');
-require('../../server/models/follow'); 
+require('../../server/models');
 
 const Follow = mongoose.model('follow');
-const User = mongoose.model('user');
 
 describe('Follow Model', () => {
     it('should not allow a follow without a follower and a followee', () => {

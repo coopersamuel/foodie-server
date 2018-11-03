@@ -3,17 +3,13 @@ const expressGraphQL = require('express-graphql');
 const models = require('./models');
 const mongoose = require('mongoose');
 const schema = require('./schema/schema');
-const { dbConfig } = require('./config');
-
-// ENV Variables
-require('dotenv').config();
-const PORT = process.env.PORT || 3000;
+const { mongoUri } = require('./config');
 
 // Create a new express application
 const app = express();
 
 // URI for Mongo Atlas instance
-const MONGO_URI = dbConfig.mongoUri;
+const MONGO_URI = mongoUri;
 
 // Mongoose's built in promise library is deprecated, replace is with ES2015 Promise
 mongoose.Promise = global.Promise;
@@ -38,4 +34,4 @@ app.use('/graphql', expressGraphQL({
 }));
 
 // Start the server
-app.listen(PORT, () => console.log(`Metro server listening on port ${PORT}!\n`));
+app.listen(3000, () => console.log(`Metro server listening on port 3000!\n`));
