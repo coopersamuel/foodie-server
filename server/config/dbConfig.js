@@ -3,7 +3,7 @@
  */
 
 module.exports = {
-    dbName: 'foodie_dev',
+    dbName: 'metro',
     dbUsername: 'coopersamuel',
     dbPassword: 'foodieDev',
     usersCollection: 'users'

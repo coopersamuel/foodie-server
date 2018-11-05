@@ -76,6 +76,16 @@ const mutation = new GraphQLObjectType({
             resolve(parentValue, args) {
                 return streamUtils.follow(args.followerId, args.followeeId);
             }
+        },
+        unfollow: {
+            type: FollowType,
+            args: {
+                followerId: { type: new GraphQLNonNull(GraphQLID) },
+                followeeId: { type: new GraphQLNonNull(GraphQLID) }
+            },
+            resolve(parentValue, args) {
+                return streamUtils.unfollow(args.followerId, args.followeeId);
+            }
         }
     }
 });
