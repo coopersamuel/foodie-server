@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
-const sinon = require('sinon');
-const { range } = require('lodash');
+const sandbox = require('sinon').createSandbox();
+const { fill } = require('lodash');
+const stream = require('../../server/stream');
 
 // Load the models here b/c we won't be instantiating the express server
 require('../../server/models');
@@ -10,22 +11,30 @@ const Post = mongoose.model('post');
 const getFeed = require('../../server/stream/streamUtils/getFeed');
 
 describe('getFeed', () => {
-    const streamFake = sinon.fake();
-    let streamGetFeed;
+    const mockResponse = {
+        results: fill(Array(10), {
+            object: 'fakeId'
+        })
+    };
 
     beforeAll(() => {
-        streamGetFeed = sinon.replace(stream.feed, 'get', streamFake);
-        sinon.stub(Post, 'find');
+        // Stub out the stream API and Post model
+        const fakeGet = sandbox.fake.resolves(mockResponse);
+        const fakeSort = sandbox.fake.resolves();
+
+        streamStub = sandbox.stub(stream, 'feed').returns({ get: fakeGet });
+        postStub = sandbox.stub(Post, 'find').returns({ sort: fakeSort });
     });
 
     afterAll(() => {
-        //Post.find.restore();
-        sinon.restore();
+        // Restore everything in the sandbox to avoid memory leaks
+        sandbox.restore();
     });
 
-    it('should call Post.find for every post id in an array', () => {
+    it('should call Post.find with an array of postIds', async () => {
         const userId = new User()._id;
-        getFeed(userId, 'timeline');
-        console.log(streamFake.callCount);
+        await getFeed(userId, 'timeline');
+
+        sandbox.assert.calledWith(postStub, { _id: { $in: fill(Array(10), 'fakeId') } });
     });
 });
