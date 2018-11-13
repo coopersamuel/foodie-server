@@ -17,13 +17,14 @@ describe('getFeed', () => {
         })
     };
 
-    beforeAll(() => {
+    beforeAll( async () => {
         // Stub out the stream API and Post model
-        const fakeGet = sandbox.fake.resolves(mockResponse);
-        const fakeSort = sandbox.fake.resolves();
+        streamStub = sandbox.stub(stream, 'feed').returns({ get: sandbox.fake.resolves(mockResponse) });
+        postStub = sandbox.stub(Post, 'find').returns({ sort: sandbox.fake.resolves() });
 
-        streamStub = sandbox.stub(stream, 'feed').returns({ get: fakeGet });
-        postStub = sandbox.stub(Post, 'find').returns({ sort: fakeSort });
+        // Call the getFeed function with a userId
+        const userId = new User()._id;
+        await getFeed(userId, 'timeline');
     });
 
     afterAll(() => {
@@ -31,10 +32,11 @@ describe('getFeed', () => {
         sandbox.restore();
     });
 
-    it('should call Post.find with an array of postIds', async () => {
-        const userId = new User()._id;
-        await getFeed(userId, 'timeline');
+    it('should call the stream get API', () => {
+        sandbox.assert.calledOnce(streamStub);
+    });
 
+    it('should call Post.find with an array of postIds', () => {
         sandbox.assert.calledWith(postStub, { _id: { $in: fill(Array(10), 'fakeId') } });
     });
 });
