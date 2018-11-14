@@ -5,7 +5,7 @@ const { map } = require('lodash');
 
 module.exports = async (userId, feedType) => {
     let postIds = [];
-
+    
     await stream
         .feed(feedType, userId)
         .get({ limit: 10 })

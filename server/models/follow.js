@@ -39,7 +39,7 @@ const FollowSchema = new Schema({
 
 FollowSchema.index({ follower: 1, followee: 1 }, { unique: true });
 
-FollowSchema.post('save', async function(doc) {
+FollowSchema.post('save', async function(doc, next) {
     // Once a follow is saved, update both the follower and followee's 
     // documents in the User collection
 
@@ -48,6 +48,18 @@ FollowSchema.post('save', async function(doc) {
 
     // Followee
     await User.findByIdAndUpdate(doc.followee, { $inc: { followerCount: 1 } });
+    next();
+});
+
+FollowSchema.post('remove', async function(doc, next) {
+    // When a follow is removed, decrement the following count
+
+    // Follower 
+    await User.findByIdAndUpdate(doc.follower, { $inc: { followingCount: -1 } });
+
+    // Followee 
+    await User.findByIdAndUpdate(doc.followee, { $inc: { followerCount: -1 } });
+    next();
 });
 
 FollowSchema.plugin(autopopulate);

@@ -1,1 +1,8 @@
+# Deps
 node_modules/
+
+# Private config - this includes secret keys, etc.
+server/config/privateConfig
+
+# Misc
+.env
