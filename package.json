@@ -8,6 +8,8 @@
     "server": "nodemon ./server/server.js"
   },
   "jest": {
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true,
     "testPathIgnorePatterns": ["<rootDir>/server/", "<rootDir>/node_modules/"]
   },
   "author": "",
