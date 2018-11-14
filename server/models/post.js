@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const autopopulate = require('mongoose-autopopulate');
-const { dbConfig } = require('../config');
 
 // This is the Post schema for mongoose
 // This schema contains the data that will be stored in each Post record
