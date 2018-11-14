@@ -5,12 +5,16 @@
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=test jest",
-    "server": "nodemon ./server/server.js"
+    "server": "nodemon ./server/server.js",
+    "codecov": "codecov -t 88026d06-0a56-41d5-a956-9c5224b6e5f8"
   },
   "jest": {
     "coverageDirectory": "./coverage/",
     "collectCoverage": true,
-    "testPathIgnorePatterns": ["<rootDir>/server/", "<rootDir>/node_modules/"]
+    "testPathIgnorePatterns": [
+      "<rootDir>/server/",
+      "<rootDir>/node_modules/"
+    ]
   },
   "author": "",
   "license": "ISC",
@@ -26,6 +30,7 @@
     "sinon": "^7.1.1"
   },
   "devDependencies": {
+    "codecov": "^3.1.0",
     "jest": "^23.6.0",
     "nodemon": "^1.18.4"
   }
