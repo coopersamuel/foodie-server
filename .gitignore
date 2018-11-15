@@ -1,8 +1,8 @@
 # Deps
 node_modules/
 
-# Private config - this includes secret keys, etc.
-server/config/privateConfig
+# Coverage
+/coverage/
 
 # Misc
 .env
