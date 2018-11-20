@@ -11,12 +11,14 @@ const {
 // Import mongoose models and utils
 const User = mongoose.model('user');
 const Post = mongoose.model('post');
+const Follow = mongoose.model('follow');
 const streamUtils = require('../stream/streamUtils');
 
 // Import graphql types
 const UserType = require('./types/user_type');
 const PostType = require('./types/post_type');
 const FeedType = require('./types/feed_type');
+const FollowType = require('./types/follow_type');
 
 // This will make sure that an ObjectId from Mongo will always be coerced to a string
 ObjectId.prototype.valueOf = function() {
@@ -42,7 +44,7 @@ const RootQuery = new GraphQLObjectType({
             }
         },
         userFeed: {
-            // Query a users feed given their user id
+            // Query a user's feed given their user id
             type: FeedType,
             args: { id: { type: new GraphQLNonNull(GraphQLID) } },
             resolve(parentValue, { id }) {
@@ -51,12 +53,26 @@ const RootQuery = new GraphQLObjectType({
             }
         },
         timelineFeed: {
-            // Query a users feed given their user id
+            // Query a user's timeline feed given their user id
             type: FeedType,
             args: { id: { type: new GraphQLNonNull(GraphQLID) } },
             resolve(parentValue, { id }) {
                 const posts = streamUtils.getFeed(id, 'timeline');
                 return { posts };
+            }
+        },
+        followers: {
+            type: new GraphQLList(FollowType),
+            args: { id: { type: new GraphQLNonNull(GraphQLID) } },
+            resolve(parentValue, { id }) {
+                return Follow.find({ followee: id });
+            }
+        },
+        following: {
+            type: new GraphQLList(FollowType),
+            args: { id: { type: new GraphQLNonNull(GraphQLID) } },
+            resolve(parentValue, { id }) {
+                return Follow.find({ follower: id });
             }
         }
     })
