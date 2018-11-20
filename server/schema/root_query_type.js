@@ -37,6 +37,7 @@ const RootQuery = new GraphQLObjectType({
             }
         },
         post: {
+            // Get a post given it's id
             type: PostType,
             args: { id: { type: new GraphQLNonNull(GraphQLID) } },
             resolve(parentValue, { id }) {
@@ -62,6 +63,7 @@ const RootQuery = new GraphQLObjectType({
             }
         },
         followers: {
+            // Query a user's followers given their user id
             type: new GraphQLList(FollowType),
             args: { id: { type: new GraphQLNonNull(GraphQLID) } },
             resolve(parentValue, { id }) {
@@ -69,6 +71,7 @@ const RootQuery = new GraphQLObjectType({
             }
         },
         following: {
+            // Query a user's following given their user id
             type: new GraphQLList(FollowType),
             args: { id: { type: new GraphQLNonNull(GraphQLID) } },
             resolve(parentValue, { id }) {
