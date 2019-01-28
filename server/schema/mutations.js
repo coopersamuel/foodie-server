@@ -67,6 +67,17 @@ const mutation = new GraphQLObjectType({
                 return streamUtils.removePost(userId, postId);
             }
         },
+        updatePost: {
+            type: PostType,
+            args: {
+                userId: {type: new GraphQLNonNull(GraphQLID) },
+                postId: {type: new GraphQLNonNull(GraphQLID) },
+                content: {type: new GraphQLNonNull(GraphQLString)}
+            },
+            resolve(parentValue, args) {
+                return streamUtils.updatePost(args.userId, args.postId, args.content);
+            }
+        },
         follow: {
             type: FollowType,
             args: {
