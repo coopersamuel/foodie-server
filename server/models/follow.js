@@ -12,7 +12,11 @@ const FollowSchema = new Schema(
       ref: 'user',
       required: true,
       autopopulate: {
-        select: ['name', 'email', 'username', 'bio']
+        select: [
+            'firstName',
+            'lastName', 
+            'email', 
+            'username']
       }
     },
     followee: {
@@ -20,8 +24,12 @@ const FollowSchema = new Schema(
       ref: 'user',
       required: true,
       autopopulate: {
-        select: ['name', 'email', 'username', 'bio']
-      }
+        select: [
+          'firstName',
+          'lastName', 
+          'email', 
+          'username']
+        }
     }
   },
   {

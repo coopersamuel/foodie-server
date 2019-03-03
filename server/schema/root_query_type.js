@@ -11,12 +11,14 @@ const {
 
 // Import mongoose models and utils
 const User = mongoose.model('user');
+const Restaurant = mongoose.model('restaurant');
 const Post = mongoose.model('post');
 const Follow = mongoose.model('follow');
 const streamUtils = require('../stream/streamUtils');
 
 // Import graphql types
 const UserType = require('./types/user_type');
+const RestaurantType = require('./types/restaurant_type');
 const PostType = require('./types/post_type');
 const FeedType = require('./types/feed_type');
 const FollowType = require('./types/follow_type');
@@ -44,7 +46,8 @@ const RootQuery = new GraphQLObjectType({
       async resolve(parentValue, args) {
         return await User.find({
           $or: [
-            { name: new RegExp(`${args.searchTerm}`, 'i') },
+            { firstName: new RegExp(`${args.searchTerm}`, 'i') },
+            { lastName: new RegExp(`${args.searchTerm}`, 'i') },
             { username: new RegExp(`${args.searchTerm}`, 'i') }
           ]
         });
@@ -89,6 +92,14 @@ const RootQuery = new GraphQLObjectType({
       args: { followerId: { type: new GraphQLNonNull(GraphQLID) } },
       async resolve(parentValue, { followerId }) {
         return await Follow.find({ follower: followerId });
+      }
+    },
+    restaurant: {
+      // Query a restaurant given the restaurant's id
+      type: RestaurantType,
+      args: { id: { type: new GraphQLNonNull(GraphQLID) } },
+      resolve(parentValue, { id }) {
+        return Restaurant.findById(id);
       }
     }
   })

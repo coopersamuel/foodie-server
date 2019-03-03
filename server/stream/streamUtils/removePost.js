@@ -1,6 +1,5 @@
 const stream = require('../index');
 const mongoose = require('mongoose');
-const User = mongoose.model('user');
 const Post = mongoose.model('post');
 
 module.exports = async (userId, postId) => {

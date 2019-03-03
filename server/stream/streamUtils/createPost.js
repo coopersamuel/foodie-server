@@ -2,9 +2,9 @@ const stream = require('../index');
 const mongoose = require('mongoose');
 const Post = mongoose.model('post');
 
-module.exports = async (userId, content) => {
+module.exports = async (userId, restaurantId, review, comment, media, taggedUsers, hashtags) => {
     // Add the post to the posts collection
-    const post = await Post.create({ user: userId, content })
+    const post = await Post.create({ user: userId, restaurant: restaurantId, review, comment, media, taggedUsers, hashtags })
         .catch(error => {
             throw new Error('Unable to create new post');
         });

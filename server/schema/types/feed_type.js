@@ -1,10 +1,7 @@
 const graphql = require('graphql');
 const {
     GraphQLObjectType,
-    GraphQLList,
-    GraphQLID,
-    GraphQLString,
-    GraphQLNonNull
+    GraphQLList
 } = graphql;
 
 const PostType = require('./post_type');
