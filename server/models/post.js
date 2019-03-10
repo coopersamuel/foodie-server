@@ -61,8 +61,8 @@ PostSchema.post('save', async function(doc, next) {
   // Once a post is saved, update both the restaurant avgRating and ratingCount in the Restaurant collection
 
   // avgRating
-  await Restaurant.findById({ _id: doc.restaurant }, async function(err, obj) {
-    await Restaurant.findByIdAndUpdate(doc.restaurant, {
+  await Restaurant.findById({ _id: doc.restaurant._id }, async function(err, obj) {
+    await Restaurant.findByIdAndUpdate(doc.restaurant._id, {
       $set: {
         avgRating:
           (obj.toObject().ratingCount * obj.toObject().avgRating + doc.review) /
@@ -72,7 +72,7 @@ PostSchema.post('save', async function(doc, next) {
   });
 
   // ratingCount
-  await Restaurant.findByIdAndUpdate(doc.restaurant, {
+  await Restaurant.findByIdAndUpdate(doc.restaurant._id, {
     $inc: { ratingCount: 1 }
   });
   next();
@@ -80,10 +80,10 @@ PostSchema.post('save', async function(doc, next) {
 
 PostSchema.post('remove', async function(doc, next) {
   // When a post is removed, update both the restaurant avgRating and ratingCount in the Restaurant collection
-
+  console.log(doc);
   // avgRating
-  await Restaurant.findById({ _id: doc.restaurant }, async function(err, obj) {
-    await Restaurant.findByIdAndUpdate(doc.restaurant, {
+  await Restaurant.findById({ _id: doc.restaurant._id }, async function(err, obj) {
+    await Restaurant.findByIdAndUpdate(doc.restaurant._id, {
       $set: {
         avgRating:
           (obj.toObject().ratingCount * obj.toObject().avgRating - doc.review) /
@@ -93,7 +93,7 @@ PostSchema.post('remove', async function(doc, next) {
   });
 
   // ratingCount
-  await Restaurant.findByIdAndUpdate(doc.restaurant, {
+  await Restaurant.findByIdAndUpdate(doc.restaurant._id, {
     $inc: { ratingCount: -1 }
   });
   next();
