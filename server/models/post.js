@@ -80,7 +80,7 @@ PostSchema.post('save', async function(doc, next) {
 
 PostSchema.post('remove', async function(doc, next) {
   // When a post is removed, update both the restaurant avgRating and ratingCount in the Restaurant collection
-  console.log(doc);
+
   // avgRating
   await Restaurant.findById({ _id: doc.restaurant._id }, async function(err, obj) {
     await Restaurant.findByIdAndUpdate(doc.restaurant._id, {
