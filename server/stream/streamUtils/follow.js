@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const Follow = mongoose.model('follow');
 
 module.exports = async (follower, followee) => {
+    if (follower === followee) throw new Error("Users cannot follow themselves");
     // Add the follow to the follow collection
     const follow = await Follow.create({ follower, followee })
         .catch(error => {
